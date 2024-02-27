@@ -78,7 +78,7 @@ namespace todoAPI.Apis
                 {
                     return TypedResults.NotFound();
                 }
-                Todos = Todos.Where(t => t!= todo).ToList();
+                Todos.Remove(todo);
                 return Results.Ok();
             });
         }
