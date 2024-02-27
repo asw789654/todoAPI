@@ -34,14 +34,13 @@ namespace todoAPI.Apis
                 {
                     return TypedResults.NotFound();
                 }
-                return Results.Json(new { id = todo.Id, isDone = todo.IsDone });
+                return Results.Ok(todo);
             });
 
             app.MapPost("/Todos", (Todo todo) =>
             {
                 todo.Id = Todos.Max(todo => todo.Id) + 1;
                 todo.Label = "Label " + todo.Id;
-                todo.IsDone = false;
                 todo.CreatedDateTime = DateTime.UtcNow;
                 todo.UpdatedDate = DateTime.UtcNow;
                 Todos.Add(todo);
@@ -69,7 +68,7 @@ namespace todoAPI.Apis
                     return TypedResults.NotFound();
                 }
                 todo.IsDone = isDone;
-                return Results.Json(new { id = todo.Id, isDone = todo.IsDone });
+                return Results.Ok(todo);
             });
 
             app.MapDelete("/Todos/{id}", (int id) =>
@@ -79,7 +78,7 @@ namespace todoAPI.Apis
                 {
                     return TypedResults.NotFound();
                 }
-                Todos = Todos.Where(t => t.Id != id).ToList();
+                Todos = Todos.Where(t => t!= todo).ToList();
                 return Results.Ok();
             });
         }
